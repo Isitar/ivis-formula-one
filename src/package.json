@@ -1,0 +1,29 @@
+{
+  "name": "ivis-formula-one",
+  "version": "1.0.0",
+  "description": "Project for ivis at the fhnw, showing f1 data and doing some story telling",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css": "node-sass -r assets/scss -o assets/css",
+    "css:watch": "npm run css && node-sass -rw assets/scss -o assets/css",
+    "dev": "npm run css:watch",
+    "build": "npm run css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.fhnw.ch/pascal.luescher/ivis-formula-one"
+  },
+  "keywords": [
+    "ivis",
+    "f1",
+    "formula-one"
+  ],
+  "author": "Pascal Lüscher",
+  "license": "ISC",
+  "devDependencies": {
+    "node-sass": "^4.11.0",
+    "scss-compile": "^0.1.7"
+  },
+  "dependencies": {}
+}
