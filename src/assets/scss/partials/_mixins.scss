@@ -1,0 +1,18 @@
+
+@mixin fancyContainer($spaceBetween, $columns) {
+    display: flex;
+    margin: $spaceBetween/-2;
+    flex-direction: row;
+
+    > * {
+        margin: $spaceBetween/2;
+        $perc: percentage(1/$columns);
+        flex: 1 1 calc(#{$perc} - #{$spaceBetween});
+    }
+}
+
+@mixin mobile() {
+    @media only screen and (max-width: 1000px) {
+        @content;
+    }
+}

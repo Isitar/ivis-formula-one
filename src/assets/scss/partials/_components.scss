@@ -1,0 +1,24 @@
+@import "vars";
+@import "mixins";
+
+.fancyDisplay {
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+
+.fancyDisplayShow {
+    opacity: 1;
+}
+
+// containers
+@each $size, $margin in $margins {    
+    @for $i from 1 through 6 {
+        .container-#{$size}-#{$i} {
+            @include fancyContainer($margin, $i);
+        }
+    }
+}
+
+.text-horz-center {
+    text-align: center;
+}
