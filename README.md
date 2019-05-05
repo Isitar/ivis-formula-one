@@ -3,10 +3,7 @@
 Student: Pascal Lüscher
 
 **Short description:**
- max. 200 chararcters.
-
-## Comments
-Add any explanatory comments or remove section,
+This project visualizes the history of the F1. Technological improvements and talented drivers should be visible in the data.
 
 ## Technical information
 **Main file path**: index.html
@@ -19,7 +16,7 @@ Add any explanatory comments or remove section,
 Change to yes when you are ready.
 |Version|Status|
 |--|--|
-|First prototype ready | no |
+|First prototype ready | yes |
 |Final version ready  | no |
 
 
