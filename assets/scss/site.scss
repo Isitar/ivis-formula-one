@@ -34,6 +34,9 @@ main {
         flex-direction: column;
         flex-wrap: nowrap;
         padding: 0 $margin-lg;
+        @include mobile() {
+            padding: 0 $margin-xs;
+        }
 
         >.inputs {
             >select {
@@ -45,10 +48,7 @@ main {
         }
 
         #pitstop-barchart {
-            height: 20;
-
             .pitstop-bar {
-                fill: orange;
                 stroke: black;
                 stroke-width: 1;
             }
