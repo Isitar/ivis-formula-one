@@ -9,7 +9,7 @@ Student: Pascal Lüscher
 Add any explanatory comments or remove section,
 
 ## Technical information
-**Main file path**: src/index.html
+**Main file path**: index.html
 
 ## install
 ```npm i```

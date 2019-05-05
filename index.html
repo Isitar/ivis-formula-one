@@ -20,22 +20,41 @@
     </h1>
   </header>
   <main>
-    <section class="statistics">
-    <div>
-      <label for="driver_1_select">Driver 1</label>
-      <select id="driver_1_select">
-      </select>
+    <section id="pitstop-evolution">
+      <h1>Pitstop evolution</h1>
+      <p>See how pitstops evolved</p>
+      <div class="inputs">
+        <select id="circuit_select"></select>
+        <select id="pitstop-season-select"></select>
+      </div>
+      <svg id="pitstop-barchart" viewBox="0 0 2000 1000"></svg>
+      <svg id="pitstop-linechart" viewBox="0 0 2000 1000"></svg>
+    </section>
 
-    </div>
-    <div>
+    <section class="statistics">
+      <div>
+        <label for="driver_1_select">Driver 1</label>
+        <select id="driver_1_select">
+        </select>
+
+      </div>
+      <div>
         <label for="driver_2_select">Driver 2</label>
         <select id="driver_2_select"></select>
-    </div>
-    <svg class="diagram" viewport="0 0 100 100" width="300" height="100"></svg>
-  </section>
-  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur unde placeat id inventore neque sapiente. In pariatur corporis sed dolor veniam alias nemo quam ut nam! Quaerat quasi obcaecati soluta!</p>
-  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur unde placeat id inventore neque sapiente. In pariatur corporis sed dolor veniam alias nemo quam ut nam! Quaerat quasi obcaecati soluta!</p>
-  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur unde placeat id inventore neque sapiente. In pariatur corporis sed dolor veniam alias nemo quam ut nam! Quaerat quasi obcaecati soluta!</p>
+      </div>
+      <svg class="diagram" viewport="0 0 200 100" width="300" height="100"></svg>
+    </section>
+    <section>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur unde placeat id inventore neque
+        sapiente.
+        In pariatur corporis sed dolor veniam alias nemo quam ut nam! Quaerat quasi obcaecati soluta!</p>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur unde placeat id inventore neque
+        sapiente.
+        In pariatur corporis sed dolor veniam alias nemo quam ut nam! Quaerat quasi obcaecati soluta!</p>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur unde placeat id inventore neque
+        sapiente.
+        In pariatur corporis sed dolor veniam alias nemo quam ut nam! Quaerat quasi obcaecati soluta!</p>
+    </section>
   </main>
   <footer>
     <div class="container-sm-3">
@@ -47,6 +66,8 @@
   <div class="bar"></div>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src='assets/js/diagram.js'></script>
+  <script src='assets/js/pitstop-diagram-bar.js'></script>
+
   <script src="assets/js/site.js"></script>
 </body>
 

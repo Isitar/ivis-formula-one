@@ -4,57 +4,106 @@
 @import "partials/components";
 
 header {
-  .header-logo {
-    max-height: 3rem;
-  }
-  > h1 {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+    .header-logo {
+        max-height: 3rem;
+    }
+
+    >h1 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
 
 main {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  > .statistics {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    flex: 1 1 50%;
-    
-    > div {
-      flex: 1 0 auto;
-      text-align: center
-    }
-    .diagram {
-        flex: 1 0 100%
+    >* {
+        flex: 1 1 auto;
     }
 
-    // debug
-    >:nth-child(2n + 1) {
-        background-color: salmon;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    section {
+        margin-bottom: $margin-sm;
     }
-    >:nth-child(2n) {
-        background-color: pink;
+
+    >#pitstop-evolution {
+        flex: 1 0 auto;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        padding: 0 $margin-lg;
+
+        >.inputs {
+            >select {
+                overflow-wrap: break-word;
+                overflow: hidden;
+                white-space: pre;
+                text-overflow: ellipsis;
+            }
+        }
+
+        #pitstop-barchart {
+            height: 20;
+
+            .pitstop-bar {
+                fill: orange;
+                stroke: black;
+                stroke-width: 1;
+            }
+        }
+
+        #pitstop-linechart {
+            .pitstop-line {
+                fill: none;
+                stroke: black;
+                stroke-width: 1;
+            }
+        }
     }
-    > * {
-        border: 2px black solid;
-        
+
+    >.statistics {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        flex: 1 0 auto;
+
+        >div {
+            flex: 1 0 auto;
+            text-align: center
+        }
+
+        .diagram {
+            flex: 1 0 100%
+        }
+
+        // debug
+        >:nth-child(2n + 1) {
+            background-color: salmon;
+        }
+
+        >:nth-child(2n) {
+            background-color: pink;
+        }
+
+        >* {
+            border: 2px black solid;
+
+        }
     }
-  }
 }
 
 .bar {
-  > .bar-racer {
-    position: absolute;
-    right: 0;
-    top: -30px;
-    transition: right 1s linear;
-    &.racing {
-      right: 100vw;
+    >.bar-racer {
+        position: absolute;
+        right: 0;
+        top: -30px;
+        transition: right 1s linear;
+
+        &.racing {
+            right: 100vw;
+        }
     }
-  }
 }
