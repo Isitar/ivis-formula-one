@@ -35,7 +35,15 @@
     fetch('http://ergast.com/api/f1/circuits.json?limit=1000')
         .then(res => res.json())
         .then(res => {
-            const selCircuit = document.querySelector('#circuit_select');
+            const selPitstopCircuit = document.querySelector('#pitstop-circuit-select');
+            const selLaptimeCircuit = document.querySelector('#laptime-circuit-select');
+
+            function createOption(circuit) {
+                const opt = document.createElement('option');
+                opt.value = circuit.circuitId;
+                opt.text = `${circuit.Location.country} - ${circuit.Location.locality} (${circuit.circuitName})`;
+                return opt;
+            }
 
             res.MRData.CircuitTable.Circuits.sort((c1, c2) => {
                 if (c1.Location.country !== c2.Location.country) {
@@ -48,6 +56,8 @@
 
                 return stringCompare(c1.circuitName, c2.circuitName);
             }).forEach(c => {
+                
+                
                 fetch(`http://ergast.com/api/f1/circuits/${c.circuitId}/seasons.json`)
                     .then(res2 => res2.json())
                     .then(res2 => res2.MRData.SeasonTable.Seasons)
@@ -55,21 +65,26 @@
                         if (seasons
                             .map(s => +s.season)
                             .filter(s => s >= 2012).length) {
-                            const opt = document.createElement('option');
-                            opt.value = c.circuitId;
-                            opt.text = `${c.Location.country} - ${c.Location.locality} (${c.circuitName})`;
-                            selCircuit.appendChild(opt);
+                            
+                            selPitstopCircuit.appendChild(createOption(c));
                         }
 
-                        if (selCircuit.childNodes.length === 1) {
-                            selCircuit.onchange({ target: selCircuit })
+                        if (seasons
+                            .map(s => +s.season)
+                            .filter(s => s >= 1996).length) {
+                            
+                            selLaptimeCircuit.appendChild(createOption(c));
+                        }
+
+                        if (selPitstopCircuit.childNodes.length === 1) {
+                            selPitstopCircuit.onchange({ target: selPitstopCircuit })
                         }
                     })
                     .catch(ex => { console.log(ex); })
             });
         })
 
-    const pitstopSelect = document.querySelector('#circuit_select');
+    const pitstopSelect = document.querySelector('#pitstop-circuit-select');
     const seasonSelect = document.querySelector('#pitstop-season-select');
 
     pitstopSelect.onchange = e => {

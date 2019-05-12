@@ -1,4 +1,5 @@
-const pitstopSelect = document.querySelector('#circuit_select');
+(function() {
+const pitstopSelect = document.querySelector('#pitstop-circuit-select');
 const seasonSelect = document.querySelector('#pitstop-season-select');
 
 
@@ -119,3 +120,4 @@ seasonSelect.onchange = e => {
 
 
 }
+})();
