@@ -35,7 +35,8 @@ main {
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
-       // padding: 0 $margin-lg;
+
+        // padding: 0 $margin-lg;
         @include mobile() {
             padding: 0 $margin-xs;
         }
@@ -56,23 +57,31 @@ main {
             }
         }
 
-       
+
     }
+
     >#laptime-evolution {
         #laptime-boxplot {
             .box {
                 fill: #00adff;
             }
+
             .horz-line {
                 stroke: black;
                 width: 40;
             }
+
             .vert-line {
                 stroke: black;
                 width: 40;
             }
+
+            &.loading {
+                filter: blur(5px);
+            }
         }
     }
+
 
     >.statistics {
         display: flex;
