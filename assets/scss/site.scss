@@ -4,126 +4,144 @@
 @import "partials/components";
 
 header {
-    .header-logo {
-        max-height: 3rem;
-    }
+  .header-logo {
+    max-height: 3rem;
+  }
 
-    >h1 {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+  > h1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
-
-
 main {
-    >* {
-        flex: 1 1 auto;
-    }
+  > * {
+    flex: 1 1 auto;
+  }
 
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  section {
+    margin-bottom: $margin-sm;
+  }
+
+  > #pitstop-evolution {
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-
-    section {
-        margin-bottom: $margin-sm;
+    @include mobile() {
+      padding: 0 $margin-xs;
     }
 
-    >#pitstop-evolution {
-        flex: 1 0 auto;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-
-        // padding: 0 $margin-lg;
-        @include mobile() {
-            padding: 0 $margin-xs;
-        }
-
-        >.inputs {
-            >select {
-                overflow-wrap: break-word;
-                overflow: hidden;
-                white-space: pre;
-                text-overflow: ellipsis;
-            }
-        }
-
-        #pitstop-barchart {
-            .pitstop-bar {
-                stroke: black;
-                stroke-width: 1;
-            }
-        }
-
-
+    > .inputs {
+      > select {
+        overflow-wrap: break-word;
+        overflow: hidden;
+        white-space: pre;
+        text-overflow: ellipsis;
+      }
     }
 
-    >#laptime-evolution {
-        #laptime-boxplot {
-            .box {
-                fill: #00adff;
-            }
+    #pitstop-barchart {
+      .pitstop-bar {
+        stroke: black;
+        stroke-width: 1;
+      }
+    }
+  }
 
-            .horz-line {
-                stroke: black;
-                width: 40;
-            }
+  > #laptime-evolution {
+    #laptime-boxplot {
+      .box {
+        fill: rgb(255, 64, 68);
+      }
 
-            .vert-line {
-                stroke: black;
-                width: 40;
-            }
+      .horz-line {
+        stroke: black;
+        width: 40;
+      }
 
-            &.loading {
-                filter: blur(5px);
-            }
-        }
+      .vert-line {
+        stroke: black;
+        width: 40;
+      }
+
+      transition: opacity 0.5s ease-out;
+      opacity: 1;
+      &.loading {
+        opacity: 0;
+        display: none;
+      }
     }
 
+    #laptime-boxplot-loader {
+      min-height: 5rem;
+      opacity: 0;
+      transition: opacity 0.5s ease-out;
+      display: inline-block;
 
-    >.statistics {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-        flex: 1 0 auto;
-
-        >div {
-            flex: 1 0 auto;
-            text-align: center
+      &.loading {
+        @keyframes fancyLoading {
+          0% {
+            transform: rotate(0deg);
+          }
+          50% {
+            transform: rotate(1080deg);
+          }
+          100% {
+            transform: rotate(0deg);
+          }
         }
-
-        .diagram {
-            flex: 1 0 100%
-        }
-
-        // debug
-        >:nth-child(2n + 1) {
-            background-color: salmon;
-        }
-
-        >:nth-child(2n) {
-            background-color: pink;
-        }
-
-        >* {
-            border: 2px black solid;
-
-        }
+        animation: fancyLoading 5s infinite;
+        opacity: 1;
+      }
     }
+  }
+
+  > .statistics {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex: 1 0 auto;
+
+    > div {
+      flex: 1 0 auto;
+      text-align: center;
+    }
+
+    .diagram {
+      flex: 1 0 100%;
+    }
+
+    // debug
+    > :nth-child(2n + 1) {
+      background-color: salmon;
+    }
+
+    > :nth-child(2n) {
+      background-color: pink;
+    }
+
+    > * {
+      border: 2px black solid;
+    }
+  }
 }
 
 .bar {
-    >.bar-racer {
-        position: absolute;
-        right: 0;
-        top: -30px;
-        transition: right 1s linear;
+  > .bar-racer {
+    position: absolute;
+    right: 0;
+    top: -30px;
+    transition: right 1s linear;
 
-        &.racing {
-            right: 100vw;
-        }
+    &.racing {
+      right: 100vw;
     }
+  }
 }

@@ -24,37 +24,23 @@
       <h1>Pitstop evolution</h1>
       <p>See how pitstops evolved</p>
       <div class="inputs">
-        <select id="pitstop-circuit-select"></select>
+        <select id="circuit-select"></select>
         <select id="pitstop-season-select"></select>
       </div>
-      <svg id="pitstop-barchart" viewBox="0 0 2000 1000"></svg>
+      <svg id="pitstop-barchart" viewBox="0 0 1000 500"></svg>
     </section>
 
     <section id="laptime-evolution">
       <h1>Laptime evolution</h1>
       <p>See how lap times evolved</p>
       <div class="inputs">
-        <select id="laptime-circuit-select"></select>
         <label>
           Lap:
-        <input type="number" id="laptime-lap" min="1">
+        <input type="number" id="laptime-lap" min="1" value="1">
       </label>
       </div>
       <svg id="laptime-boxplot" viewbox="0 0 1000 500"></svg>
-    </section>
-
-    <section class="statistics">
-      <div>
-        <label for="driver_1_select">Driver 1</label>
-        <select id="driver_1_select">
-        </select>
-
-      </div>
-      <div>
-        <label for="driver_2_select">Driver 2</label>
-        <select id="driver_2_select"></select>
-      </div>
-      <svg class="diagram" viewport="0 0 200 100" width="300" height="100"></svg>
+      <div><span id="laptime-boxplot-loader" class=""><img src="images/car-of-formula-1.svg"></span></div>
     </section>
   </main>
   <footer>

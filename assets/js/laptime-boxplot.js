@@ -1,5 +1,5 @@
 (function () {
-    const circuitSelect = document.querySelector('#laptime-circuit-select');
+    const circuitSelect = document.querySelector('#circuit-select');
     const lapInput = document.querySelector('#laptime-lap');
 
     const margin = { top: 10, right: 10, left: 50, bottom: 50 };
@@ -42,8 +42,10 @@
         .text('Laptime [s]')
 
 
-    circuitSelect.onchange = function (event) {
+
+    function updateData() {
         document.querySelector('#laptime-boxplot').classList.add('loading');
+        document.querySelector('#laptime-boxplot-loader').classList.add('loading');
         const circuitId = circuitSelect.value;
         fetch(`http://ergast.com/api/f1/circuits/${circuitId}/seasons.json`)
             .then(res => res.json())
@@ -68,7 +70,7 @@
                                     times.push(lap.Timings.map(t => t.time));
                                 })
                                 return times;
-                            });
+                            })
                         promises[season] = promise;
                     });
 
@@ -101,7 +103,13 @@
             });
     }
 
-    lapInput.onchange = circuitSelect.onchange;
+    circuitSelect.addEventListener('change',  function (event) {
+        updateData();
+    });
+
+    lapInput.addEventListener('change', e => {
+        updateData();
+    });
 
     function drawGraph(data) {
         const preparedData = data.map(d => {
@@ -113,9 +121,9 @@
             max = d3.max(d.times);
             return ({ year: d.year, q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max })
         });
-        console.log(preparedData);
+        
 
-        xScale.domain(preparedData.map(d => d.year));
+        xScale.domain(preparedData.sort(d => -d.year).map(d => d.year));
 
         g.select('.xAxis')
             .transition(1000)
@@ -181,5 +189,6 @@
             .remove();
 
         document.querySelector('#laptime-boxplot').classList.remove('loading');
+        document.querySelector('#laptime-boxplot-loader').classList.remove('loading');
     }
 })();
