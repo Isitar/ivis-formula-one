@@ -85,14 +85,14 @@
             .classed('pitstop-bar', true)
             .attr('y', height)
             .merge(u)
-            .transition()
-            .duration(1000)
             .attr('x', d => {
                 const retVal = xScale(d.x) + gUsed[d.x] * getWidth(d.x);
 
                 gUsed[d.x]++;
                 return retVal;
             })
+            .transition()
+            .duration(d => xScale(d.x)/width * 1000)
             .attr('y', d => yScale(d.y))
             .attr('width', d => getWidth(d.x))
             .attr('height', d => height - yScale(d.y))
@@ -106,13 +106,13 @@
     seasonSelect.addEventListener('change', e => {
         const circuitId = pitstopSelect.value
         const season = seasonSelect.value;
-        fetch(`http://ergast.com/api/f1/${season}/circuits/${circuitId}/races.json?limit=1`)
-            .then(res => res.json())
+        fromCacheOrFetch(`http://ergast.com/api/f1/${season}/circuits/${circuitId}/races.json?limit=1`)
+            
             .then(res => res.MRData.RaceTable.Races)
             .then(races => races[0].round)
             .then(round => {
-                fetch(`http://ergast.com/api/f1/${season}/${round}/pitstops.json?limit=1000`)
-                    .then(res => res.json())
+                fromCacheOrFetch(`http://ergast.com/api/f1/${season}/${round}/pitstops.json?limit=1000`)
+                    
                     .then(res => res.MRData.RaceTable.Races[0].PitStops)
                     .then(pitstops => {
 

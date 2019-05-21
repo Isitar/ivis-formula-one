@@ -47,8 +47,8 @@
         document.querySelector('#laptime-boxplot').classList.add('loading');
         document.querySelector('#laptime-boxplot-loader').classList.add('loading');
         const circuitId = circuitSelect.value;
-        fetch(`http://ergast.com/api/f1/circuits/${circuitId}/seasons.json`)
-            .then(res => res.json())
+        fromCacheOrFetch(`http://ergast.com/api/f1/circuits/${circuitId}/seasons.json`)
+            
             .then(res => res.MRData.SeasonTable.Seasons)
             .then(seasons => {
                 promises = []
@@ -57,12 +57,12 @@
                     .map(season => +season.season)
                     .filter(season => season >= 1996)
                     .forEach(season => {
-                        const promise = fetch(`http://ergast.com/api/f1/${season}/circuits/${circuitId}/races.json?limit=1`)
-                            .then(res => res.json())
+                        const promise = fromCacheOrFetch(`http://ergast.com/api/f1/${season}/circuits/${circuitId}/races.json?limit=1`)
+                            
                             .then(res => res.MRData.RaceTable.Races)
                             .then(races => races[0].round)
-                            .then(round => fetch(`http://ergast.com/api/f1/${season}/${round}/laps/${lapInput.value}.json?limit=1000`))
-                            .then(res => res.json())
+                            .then(round => fromCacheOrFetch(`http://ergast.com/api/f1/${season}/${round}/laps/${lapInput.value}.json?limit=1000`))
+                            
                             .then(res => res.MRData.RaceTable.Races[0].Laps)
                             .then(laps => {
                                 times = [];
@@ -71,6 +71,7 @@
                                 })
                                 return times;
                             })
+                            .catch(ex => [['0:0:0','0:0:0']])
                         promises[season] = promise;
                     });
 

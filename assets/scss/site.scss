@@ -48,8 +48,8 @@ main {
 
     #pitstop-barchart {
       .pitstop-bar {
-        stroke: black;
-        stroke-width: 1;
+        // stroke: black;
+        // stroke-width: 1;
       }
     }
   }
@@ -77,27 +77,30 @@ main {
         display: none;
       }
     }
+    .loader-wrapper {
+      display: flex;
+      justify-content: center;
+      #laptime-boxplot-loader {
+        height: 5rem;
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+        display: inline-block;
 
-    #laptime-boxplot-loader {
-      min-height: 5rem;
-      opacity: 0;
-      transition: opacity 0.5s ease-out;
-      display: inline-block;
-
-      &.loading {
-        @keyframes fancyLoading {
-          0% {
-            transform: rotate(0deg);
+        &.loading {
+          @keyframes fancyLoading {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(-1080deg);
+            }
           }
-          50% {
-            transform: rotate(1080deg);
-          }
-          100% {
-            transform: rotate(0deg);
-          }
+          animation: fancyLoading 5s infinite linear;
+          opacity: 1;
         }
-        animation: fancyLoading 5s infinite;
-        opacity: 1;
+        > img {
+          height: 2rem;
+        }
       }
     }
   }
