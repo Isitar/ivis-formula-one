@@ -54,6 +54,10 @@ main {
     }
   }
 
+  .laptime-graph {
+    position: relative;
+  }
+
   > #laptime-evolution {
     #laptime-boxplot {
       .box {
@@ -74,18 +78,21 @@ main {
       opacity: 1;
       &.loading {
         opacity: 0;
-        display: none;
       }
     }
     .loader-wrapper {
+      position: absolute;
+      top: calc(50% - 2.5rem);
+      left: calc(50% - 2.5rem);
+      
       display: flex;
       justify-content: center;
+
       #laptime-boxplot-loader {
         height: 5rem;
         opacity: 0;
         transition: opacity 0.5s ease-out;
         display: inline-block;
-
         &.loading {
           @keyframes fancyLoading {
             0% {

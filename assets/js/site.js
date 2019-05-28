@@ -45,6 +45,7 @@
                 return opt;
             }
 
+            promises = []
             res.MRData.CircuitTable.Circuits.sort((c1, c2) => {
                 if (c1.Location.country !== c2.Location.country) {
                     return stringCompare(c1.Location.country, c2.Location.country);
@@ -56,12 +57,24 @@
 
                 return stringCompare(c1.circuitName, c2.circuitName);
             }).forEach(c => {
+                promises.push(
+                    fetch(`http://ergast.com/api/f1/circuits/${c.circuitId}/seasons.json`)
+                        .then(res2 => res2.json())
+                        .then(res2 => {
+                            return {
+                                seasons: res2.MRData.SeasonTable.Seasons,
+                                circuit: c
+                            }
+                        })
+                );
 
 
-                fetch(`http://ergast.com/api/f1/circuits/${c.circuitId}/seasons.json`)
-                    .then(res2 => res2.json())
-                    .then(res2 => res2.MRData.SeasonTable.Seasons)
-                    .then(seasons => {
+            });
+            Promise.all(promises)
+                .then(objList => {
+                    objList.forEach(obj => {
+                        const seasons = obj.seasons;
+                        const c = obj.circuit;
                         if (seasons
                             .map(s => +s.season)
                             .filter(s => s >= 2012).length &&
@@ -76,8 +89,9 @@
                             selCircuit.onchange({ target: selCircuit })
                         }
                     })
-                    .catch(ex => { console.log(ex); })
-            });
+                })
+                .catch(ex => { console.log(ex); })
+
         })
 
     const circuitSelect = document.querySelector('#circuit-select');

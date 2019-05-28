@@ -36,11 +36,15 @@
       <div class="inputs">
         <label>
           Lap:
-        <input type="number" id="laptime-lap" min="1" value="1">
-      </label>
+          <input type="number" id="laptime-lap" min="1" value="1">
+        </label>
       </div>
-      <svg id="laptime-boxplot" viewbox="0 0 1000 500"></svg>
-      <div class="loader-wrapper"><div id="laptime-boxplot-loader" class=""><img src="images/car-of-formula-1.svg"></div></div>
+      <div class="laptime-graph">
+        <svg id="laptime-boxplot" viewbox="0 0 1000 500"></svg>
+        <div class="loader-wrapper">
+          <div id="laptime-boxplot-loader" class=""><img src="images/car-of-formula-1.svg"></div>
+        </div>
+      </div>
     </section>
   </main>
   <footer>
