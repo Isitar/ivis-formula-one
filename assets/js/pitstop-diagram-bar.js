@@ -1,7 +1,7 @@
 (function () {
     const pitstopSelect = document.querySelector('#circuit-select');
     const seasonSelect = document.querySelector('#pitstop-season-select');
-
+    const radioColor = document.getElementsByName('pitstop-coloring');
 
     const margin = { top: 10, right: 10, left: 50, bottom: 50 };
     const width = 1000 - margin.left - margin.right;
@@ -49,7 +49,10 @@
 
         const maxX = d3.max(data, d => d.x);
 
-        grouped = data.reduce((carry, d) => {
+        var colorStrategy = document.querySelector('input[name="pitstop-coloring"]:checked').value;
+
+
+        const groupedByX = data.reduce((carry, d) => {
             if (d.x in carry) {
                 carry[d.x]++;
             } else {
@@ -57,7 +60,17 @@
             }
             return carry;
         }, {});
-        const maxGrp = d3.max(d3.values(grouped));
+
+        const groupedByDriver = data.reduce((carry, d) => {
+            if (d.driver in carry) {
+                carry[d.driver]++;
+            } else {
+                carry[d.driver] = 1;
+            }
+            return carry;
+        }, {});
+        console.log(groupedByDriver);
+        const maxGrp = d3.max(d3.values(colorStrategy === 'density' ? groupedByX : groupedByDriver));
         colorScale.domain([1, maxGrp]);
 
 
@@ -77,7 +90,7 @@
         const u = g.selectAll('.pitstop-bar')
             .data(data, d => d.x);
 
-        getWidth = x => xScale.bandwidth() / grouped[x];
+        getWidth = x => xScale.bandwidth() / groupedByX[x];
 
 
         u.enter()
@@ -92,27 +105,38 @@
                 return retVal;
             })
             .transition()
-            .duration(d => xScale(d.x)/width * 1000)
+            .duration(d => xScale(d.x) / width * 1000)
             .attr('y', d => yScale(d.y))
             .attr('width', d => getWidth(d.x))
             .attr('height', d => height - yScale(d.y))
-            .style('fill', d => colorScale(grouped[d.x]))
+            .style('fill', d => colorScale(colorStrategy === 'density' ? groupedByX[d.x] : groupedByDriver[d.driver]))
 
         u.exit()
             .remove()
     }
 
+    radioColor.forEach(radio => {
+        radio.addEventListener('click', e => {
+            var event;
+            if (document.createEvent) {
+                event = document.createEvent("HTMLEvents");
+                event.initEvent("change", true, true);
+            }
+            event.eventName = "change";
+            seasonSelect.dispatchEvent(event);
+        })
+    })
 
     seasonSelect.addEventListener('change', e => {
         const circuitId = pitstopSelect.value
         const season = seasonSelect.value;
         fromCacheOrFetch(`http://ergast.com/api/f1/${season}/circuits/${circuitId}/races.json?limit=1`)
-            
+
             .then(res => res.MRData.RaceTable.Races)
             .then(races => races[0].round)
             .then(round => {
                 fromCacheOrFetch(`http://ergast.com/api/f1/${season}/${round}/pitstops.json?limit=1000`)
-                    
+
                     .then(res => res.MRData.RaceTable.Races[0].PitStops)
                     .then(pitstops => {
 

@@ -7,23 +7,6 @@
         el.classList.add('racing');
     });
 
-
-    // fetch('http://ergast.com/api/f1/drivers.json?limit=1000')
-    //     .then(res => res.json())
-    //     .then(res => {
-    //         const selD1 = document.querySelector('#driver_1_select');
-    //         const selD2 = document.querySelector('#driver_2_select');
-
-    //         res.MRData.DriverTable.Drivers.forEach(d => {
-    //             const opt = document.createElement('option');
-    //             opt.value = d.driverId;
-    //             opt.text = `${d.givenName} ${d.familyName}`;
-    //             selD1.appendChild(opt)
-    //             const opt2 = opt.cloneNode(true);
-    //             selD2.appendChild(opt2);
-    //         })
-    //     })
-
     stringCompare = (a, b) => {
         a = a.toLowerCase();
         b = b.toLowerCase();
@@ -32,11 +15,8 @@
         return 0;
     }
 
-    fetch('http://ergast.com/api/f1/circuits.json?limit=1000')
-        .then(res => res.json())
+    fromCacheOrFetch('http://ergast.com/api/f1/circuits.json?limit=1000')
         .then(res => {
-            //const selPitstopCircuit = document.querySelector('#pitstop-circuit-select');
-            //const selLaptimeCircuit = document.querySelector('#laptime-circuit-select');
             const selCircuit = document.querySelector('#circuit-select');
             function createOption(circuit) {
                 const opt = document.createElement('option');
@@ -58,8 +38,7 @@
                 return stringCompare(c1.circuitName, c2.circuitName);
             }).forEach(c => {
                 promises.push(
-                    fetch(`http://ergast.com/api/f1/circuits/${c.circuitId}/seasons.json`)
-                        .then(res2 => res2.json())
+                    fromCacheOrFetch(`http://ergast.com/api/f1/circuits/${c.circuitId}/seasons.json?limit=1000`)
                         .then(res2 => {
                             return {
                                 seasons: res2.MRData.SeasonTable.Seasons,
@@ -73,16 +52,18 @@
             Promise.all(promises)
                 .then(objList => {
                     objList.forEach(obj => {
-                        const seasons = obj.seasons;
+                        const seasons = obj.seasons.map(s => +s.season);
                         const c = obj.circuit;
-                        if (seasons
-                            .map(s => +s.season)
-                            .filter(s => s >= 2012).length &&
-                            seasons
-                                .map(s => +s.season)
-                                .filter(s => s >= 1996).length
+                        if (seasons.filter(s => s >= 2012).length > 0
+                            && seasons.filter(s => s >= 1996).length > 0
                         ) {
                             selCircuit.appendChild(createOption(c));
+                        } else {
+                            if (seasons.length > 0) {
+                                // console.log(`not including ${c.circuitId} with seasons: ${seasons.reduce((carry,season) => {
+                                //     return carry + ', ' + season;
+                                // })}`)
+                            }
                         }
 
                         if (selCircuit.childNodes.length === 1) {
@@ -101,8 +82,7 @@
         const target = e.target;
         const circuitId = target.value;
 
-        fetch(`http://ergast.com/api/f1/circuits/${circuitId}/seasons.json?limit=1000`)
-            .then(res => res.json())
+        fromCacheOrFetch(`http://ergast.com/api/f1/circuits/${circuitId}/seasons.json?limit=1000`)
             .then(res => res.MRData.SeasonTable.Seasons)
             .then(seasons => {
 

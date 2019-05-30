@@ -47,7 +47,7 @@
         document.querySelector('#laptime-boxplot').classList.add('loading');
         document.querySelector('#laptime-boxplot-loader').classList.add('loading');
         const circuitId = circuitSelect.value;
-        fromCacheOrFetch(`http://ergast.com/api/f1/circuits/${circuitId}/seasons.json`)
+        fromCacheOrFetch(`http://ergast.com/api/f1/circuits/${circuitId}/seasons.json?limit=1000`)
             
             .then(res => res.MRData.SeasonTable.Seasons)
             .then(seasons => {

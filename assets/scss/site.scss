@@ -4,154 +4,122 @@
 @import "partials/components";
 
 header {
-  .header-logo {
-    max-height: 3rem;
-  }
+    .header-logo {
+        max-height: 3rem;
+    }
 
-  > h1 {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+    >h1 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
 
 main {
-  > * {
-    flex: 1 1 auto;
-  }
+    >* {
+        flex: 1 1 auto;
+    }
 
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-
-  section {
-    margin-bottom: $margin-sm;
-  }
-
-  > #pitstop-evolution {
-    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    @include mobile() {
-      padding: 0 $margin-xs;
+
+    section {
+        margin-bottom: $margin-sm;
     }
 
-    > .inputs {
-      > select {
-        overflow-wrap: break-word;
-        overflow: hidden;
-        white-space: pre;
-        text-overflow: ellipsis;
-      }
-    }
+    >#pitstop-evolution {
+        flex: 1 0 auto;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
 
-    #pitstop-barchart {
-      .pitstop-bar {
-        // stroke: black;
-        // stroke-width: 1;
-      }
-    }
-  }
-
-  .laptime-graph {
-    position: relative;
-  }
-
-  > #laptime-evolution {
-    #laptime-boxplot {
-      .box {
-        fill: rgb(255, 64, 68);
-      }
-
-      .horz-line {
-        stroke: black;
-        width: 40;
-      }
-
-      .vert-line {
-        stroke: black;
-        width: 40;
-      }
-
-      transition: opacity 0.5s ease-out;
-      opacity: 1;
-      &.loading {
-        opacity: 0;
-      }
-    }
-    .loader-wrapper {
-      position: absolute;
-      top: calc(50% - 2.5rem);
-      left: calc(50% - 2.5rem);
-      
-      display: flex;
-      justify-content: center;
-
-      #laptime-boxplot-loader {
-        height: 5rem;
-        opacity: 0;
-        transition: opacity 0.5s ease-out;
-        display: inline-block;
-        &.loading {
-          @keyframes fancyLoading {
-            0% {
-              transform: rotate(0deg);
-            }
-            100% {
-              transform: rotate(-1080deg);
-            }
-          }
-          animation: fancyLoading 5s infinite linear;
-          opacity: 1;
+        @include mobile() {
+            padding: 0 $margin-xs;
         }
-        > img {
-          height: 2rem;
+
+        >.inputs {
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin: -$margin-sm/2;
+
+            @include mobile() {
+                flex-direction: column;
+            }
+
+            >div {
+                flex: 1 0 auto;
+                margin: $margin-sm/2;
+
+                @include mobile() {
+                    flex-basis: 100%;
+                }
+            }
+
+            #pitstop-coloring-radios {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                //margin: -$margin-xs/2;
+
+                @include mobile() {
+                    justify-content: center;
+                }
+
+                >* {
+                    margin: $margin-xs/2;
+                }
+
+                >label {
+                    flex: 1 0 auto;
+                }
+            }
+
         }
-      }
-    }
-  }
 
-  > .statistics {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    flex: 1 0 auto;
-
-    > div {
-      flex: 1 0 auto;
-      text-align: center;
+        #pitstop-barchart {
+            .pitstop-bar {
+                // stroke: black;
+                // stroke-width: 1;
+            }
+        }
     }
 
-    .diagram {
-      flex: 1 0 100%;
+    .laptime-graph {
+        position: relative;
     }
 
-    // debug
-    > :nth-child(2n + 1) {
-      background-color: salmon;
-    }
 
-    > :nth-child(2n) {
-      background-color: pink;
-    }
 
-    > * {
-      border: 2px black solid;
-    }
-  }
-}
+    >.statistics {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        flex: 1 0 auto;
 
-.bar {
-  > .bar-racer {
-    position: absolute;
-    right: 0;
-    top: -30px;
-    transition: right 1s linear;
+        >div {
+            flex: 1 0 auto;
+            text-align: center;
+        }
 
-    &.racing {
-      right: 100vw;
+        .diagram {
+            flex: 1 0 100%;
+        }
+
+        // debug
+        > :nth-child(2n + 1) {
+            background-color: salmon;
+        }
+
+        > :nth-child(2n) {
+            background-color: pink;
+        }
+
+        >* {
+            border: 2px black solid;
+        }
     }
-  }
 }

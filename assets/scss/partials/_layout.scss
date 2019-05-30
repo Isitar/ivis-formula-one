@@ -7,8 +7,8 @@ html {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
     font-style: normal;
 }
 
@@ -16,7 +16,8 @@ body {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    background-color: #fafafa;
+    background-color: $color-bg-primary;
+
     >.bar {
         flex: 0 0 auto;
         height: 0.25em;
@@ -28,9 +29,11 @@ body {
     >main,
     >footer {
         padding: 0 3*$margin-lg;
+
         @include mobile() {
             padding: $margin-sm;
         }
+
         margin-bottom: $margin-sm;
     }
 
@@ -47,4 +50,22 @@ body {
         flex: 0 1 auto;
     }
 
+    >.bar {
+        >.bar-racer {
+            position: absolute;
+            right: 0;
+            top: -30px;
+            transition: right 1s linear;
+
+            &.racing {
+                right: 100vw;
+            }
+        }
+    }
+}
+
+header {
+    >p {
+        font-weight: 400;
+    }
 }

@@ -5,8 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap" rel="stylesheet">
+  <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="assets/css/site.css">
+
   <title>F1 - Past to present</title>
 </head>
 
@@ -20,12 +22,38 @@
     </h1>
   </header>
   <main>
+    <header>
+      <h2>Welcome</h2>
+      <p>Welcome to my visualisation about the F1.</p>
+    </header>
+    <section>
+      <p>The Formula one has evolved a lot in the last years. </p>
+    </section>
     <section id="pitstop-evolution">
       <h1>Pitstop evolution</h1>
       <p>See how pitstops evolved</p>
       <div class="inputs">
-        <select id="circuit-select"></select>
-        <select id="pitstop-season-select"></select>
+        <div class="select-wrapper">
+          <select id="circuit-select"></select>
+        </div>
+        <div class="select-wrapper">
+          <select id="pitstop-season-select"></select>
+        </div>
+      </div>
+    <div class="inputs">
+        <div id="pitstop-coloring-radios">
+          <span>Coloring:</span>
+          <label class="container">
+            density
+            <input type="radio" checked="checked" name="pitstop-coloring" value="density">
+            <span class="checkmark"></span>
+          </label>
+          <label class="container">
+            strategy
+            <input type="radio" checked="checked" name="pitstop-coloring" value="strategy">
+            <span class="checkmark"></span>
+          </label>
+        </div>
       </div>
       <svg id="pitstop-barchart" viewBox="0 0 1000 500"></svg>
     </section>
