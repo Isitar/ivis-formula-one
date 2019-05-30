@@ -118,7 +118,7 @@
 
         const cells = [...new Set(Object.values((colorStrategy === 1) ? groupedByX : groupedByDriver))];
         cells.sort((x1,x2) => x2-x1);
-        console.log(cells);
+        
         const legend = d3
             .legendColor()
             .shapeWidth(10)
