@@ -99,7 +99,7 @@
                             d.times = lapTimesInseconds;
                             data.push(d);
                         });
-                        drawGraph(data.sort(d => -d.year));
+                        drawGraph(data.sort((d1,d2) => (d1.year - d2.year)));
                     });
             });
     }

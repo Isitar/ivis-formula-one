@@ -49,8 +49,7 @@
 
         const maxX = d3.max(data, d => d.x);
 
-        var colorStrategy = document.querySelector('input[name="pitstop-coloring"]:checked').value;
-
+        var colorStrategy = document.querySelector('input[name="pitstop-coloring"]:checked').value == 'density' ? 1 : 0;
 
         const groupedByX = data.reduce((carry, d) => {
             if (d.x in carry) {
@@ -69,13 +68,12 @@
             }
             return carry;
         }, {});
-        console.log(groupedByDriver);
-        const maxGrp = d3.max(d3.values(colorStrategy === 'density' ? groupedByX : groupedByDriver));
+
+        const maxGrp = d3.max(d3.values(colorStrategy === 1 ? groupedByX : groupedByDriver));
         colorScale.domain([1, maxGrp]);
 
 
         gUsed = new Array(maxX + 1).fill(0);
-
 
         xScale.domain(Array.apply(null, { length: maxX + 1 }).map(Number.call, Number));
         g.select('.xAxis')
@@ -109,10 +107,28 @@
             .attr('y', d => yScale(d.y))
             .attr('width', d => getWidth(d.x))
             .attr('height', d => height - yScale(d.y))
-            .style('fill', d => colorScale(colorStrategy === 'density' ? groupedByX[d.x] : groupedByDriver[d.driver]))
+            .style('fill', d => colorScale(colorStrategy === 1 ? groupedByX[d.x] : groupedByDriver[d.driver]))
 
         u.exit()
             .remove()
+
+        g.append('g')
+            .attr('id', 'legend')
+            .attr('transform', `translate(${width - margin.right - 30},0)`);
+
+        const cells = [...new Set(Object.values((colorStrategy === 1) ? groupedByX : groupedByDriver))];
+        cells.sort((x1,x2) => x2-x1);
+        console.log(cells);
+        const legend = d3
+            .legendColor()
+            .shapeWidth(10)
+            //.cells(groupedByX.length)
+            .cells(cells)
+            .scale(colorScale);
+
+        g.select('#legend')
+            .call(legend);
+
     }
 
     radioColor.forEach(radio => {
