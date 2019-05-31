@@ -19,10 +19,9 @@
     const yScale = d3.scaleLinear()
         .range([height, 0]);
     const yAxis = d3.axisLeft(yScale);
-    const colorScale = d3.scaleLinear()
+    let colorScale = d3.scaleLinear()
         .range(['pink', 'red'])
 
-    //d3.scaleOrdinal(d3.schemeCategory10.concat(d3.schemeSet1).concat(d3.schemeSet2).concat(d3.schemeSet3));
     g.append('g')
         .attr('class', 'xAxis')
         .attr('transform', `translate(0,${height})`)
@@ -69,9 +68,18 @@
             return carry;
         }, {});
 
-        const maxGrp = d3.max(d3.values(colorStrategy === 1 ? groupedByX : groupedByDriver));
-        colorScale.domain([1, maxGrp]);
 
+        let maxGrp;
+        if (colorStrategy === 1) {
+            maxGrp = d3.max(d3.values(groupedByX));
+            colorScale = d3.scaleLinear().range(['pink', 'red']);
+            colorScale.domain([1, maxGrp]);
+        } else {
+            maxGrp = d3.max(d3.values(groupedByDriver));
+            colorScale = d3.scaleOrdinal(d3['schemeCategory10']);
+            colorScale.domain(d3.values(groupedByDriver).sort((x1, x2) => x1 - x2));
+
+        }
 
         gUsed = new Array(maxX + 1).fill(0);
 
@@ -98,7 +106,6 @@
             .merge(u)
             .attr('x', d => {
                 const retVal = xScale(d.x) + gUsed[d.x] * getWidth(d.x);
-
                 gUsed[d.x]++;
                 return retVal;
             })
@@ -110,19 +117,18 @@
             .style('fill', d => colorScale(colorStrategy === 1 ? groupedByX[d.x] : groupedByDriver[d.driver]))
 
         u.exit()
-            .remove()
+            .remove();
 
         g.append('g')
             .attr('id', 'legend')
             .attr('transform', `translate(${width - margin.right - 30},0)`);
 
         const cells = [...new Set(Object.values((colorStrategy === 1) ? groupedByX : groupedByDriver))];
-        cells.sort((x1,x2) => x2-x1);
-        
+        cells.sort((x1, x2) => x2 - x1);
+
         const legend = d3
             .legendColor()
             .shapeWidth(10)
-            //.cells(groupedByX.length)
             .cells(cells)
             .scale(colorScale);
 
@@ -146,9 +152,9 @@
     seasonSelect.addEventListener('change', e => {
         const circuitId = pitstopSelect.value
         const season = seasonSelect.value;
-        fromCacheOrFetch(`http://ergast.com/api/f1/${season}/circuits/${circuitId}/races.json?limit=1`)
-
+        const racesPromise = fromCacheOrFetch(`http://ergast.com/api/f1/${season}/circuits/${circuitId}/races.json?limit=1`)
             .then(res => res.MRData.RaceTable.Races)
+        racesPromise
             .then(races => races[0].round)
             .then(round => {
                 fromCacheOrFetch(`http://ergast.com/api/f1/${season}/${round}/pitstops.json?limit=1000`)
@@ -163,7 +169,25 @@
                     })
                     .catch(ex => console.log(ex))
             })
-            .catch(ex => console.log(ex))
+            .catch(ex => console.log(ex));
+
+        racesPromise.then(races => {
+            fromCacheOrFetch(`https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=extracts&exintro&titles=${races[0].url.split('/').pop()}&format=json`)
+                .then(res => {
+                    const seasonWiki = document.querySelector('#season-wikipedia');
+                    while (seasonWiki.firstChild) {
+                        seasonWiki.removeChild(seasonWiki.firstChild);
+                    }
+                    const pages = res.query.pages;
+                    seasonWiki.innerHTML = pages[Object.keys(pages)[0]].extract;
+                    const link = document.createElement('a');
+                    link.href= races[0].url;
+                    link.innerHTML='Read more on wikipedia';
+                    link.setAttribute('class', 'btn-read-more');
+                    seasonWiki.appendChild(link);
+                })
+        });
+
     });
 }
 )();

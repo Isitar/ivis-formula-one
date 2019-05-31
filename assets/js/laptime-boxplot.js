@@ -85,7 +85,6 @@
                             d = {}
                             d.year = index;
 
-
                             lapTimesInseconds = time[0].map(t => {
                                 var p = t.split(':');
                                 var seconds = 0.0;
@@ -161,6 +160,21 @@
         boxes.enter()
             .append('rect')
             .classed('box', true)
+            .on('click', d => {
+                if (d.year < 2012) {
+                    return;
+                }
+                const pitstopSeasonselect = document.querySelector('#pitstop-season-select');
+                
+                pitstopSeasonselect.value=d.year;
+                var event;
+                if (document.createEvent) {
+                    event = document.createEvent("HTMLEvents");
+                    event.initEvent("change", true, true);
+                }
+                event.eventName = "change";
+                pitstopSeasonselect.dispatchEvent(event);
+            })
             .merge(boxes)
             .transition()
             .duration(1000)
@@ -168,6 +182,8 @@
             .attr('y', d => yScale(d.q3))
             .attr('width', xScale.bandwidth)
             .attr('height', d => yScale(d.q1) - yScale(d.q3))
+   
+
         boxes.exit()
             .remove();
 

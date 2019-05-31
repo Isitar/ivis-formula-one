@@ -22,45 +22,40 @@
     </h1>
   </header>
   <main>
-    <header>
-      <h2>Welcome</h2>
-      <p>Welcome to my visualisation about the F1.</p>
-    </header>
     <section>
-      <p>The Formula one has evolved a lot in the last years. </p>
+      <header>
+        <h2>Welcome</h2>
+        <p>Welcome to my visualisation about the F1.</p>
+      </header>
+
+      <p>The Formula one has evolved and changed a lot in the last years.
+        The Pitstop strategy has changed from year to year.
+        In some years almost every team drive the same strategy, in others it differs widely.
+        While data about laptimes is available since 1996, data about pitstop times and frequency is only available
+        since 2012.
+      </p>
     </section>
-    <section id="pitstop-evolution">
-      <h1>Pitstop evolution</h1>
-      <p>See how pitstops evolved</p>
+
+    <section id="circuit-section">
       <div class="inputs">
-        <div class="select-wrapper">
-          <select id="circuit-select"></select>
-        </div>
-        <div class="select-wrapper">
-          <select id="pitstop-season-select"></select>
-        </div>
+        <label for="circuit-select">
+          Select a circuit:
+          <div class="select-wrapper">
+            <select id="circuit-select"></select>
+          </div>
+        </label>
+
       </div>
-    <div class="inputs">
-        <div id="pitstop-coloring-radios">
-          <span>Coloring:</span>
-          <label class="container">
-            density
-            <input type="radio" checked="checked" name="pitstop-coloring" value="density">
-            <span class="checkmark"></span>
-          </label>
-          <label class="container">
-            strategy
-            <input type="radio" checked="checked" name="pitstop-coloring" value="strategy">
-            <span class="checkmark"></span>
-          </label>
-        </div>
+      <div id="circuit-info">
+
       </div>
-      <svg id="pitstop-barchart" viewBox="0 0 1000 500"></svg>
     </section>
 
     <section id="laptime-evolution">
-      <h1>Laptime evolution</h1>
-      <p>See how lap times evolved</p>
+      <header>
+        <h2>See how laptimes evolved for this circuit</h2>
+        <p>You can click on a box to quickly select the season.</p>
+      </header>
       <div class="inputs">
         <label>
           Lap:
@@ -74,6 +69,39 @@
         </div>
       </div>
     </section>
+
+    <section id="pitstop-evolution">
+      <header>
+        <h2>Pitstop evolution</h2>
+        <p>Pitstop tightly correlate with laptimes. But also pitstops have changed over the years. While in some years teams drive very similar strategies, in others it differs widely.</p>
+      </header>
+      <div class="inputs">
+        <div class="select-wrapper">
+          <select id="pitstop-season-select"></select>
+        </div>
+      </div>
+      <div class="inputs">
+        <div id="pitstop-coloring-radios">
+          <span>Coloring:</span>
+          <label class="container">
+            density
+            <input type="radio" checked="checked" name="pitstop-coloring" value="density">
+            <span class="checkmark"></span>
+          </label>
+          <label class="container">
+            strategy
+            <input type="radio" name="pitstop-coloring" value="strategy">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+      </div>
+      <svg id="pitstop-barchart" viewBox="0 0 1000 500"></svg>
+      <div id="season-wikipedia">
+
+      </div>
+    </section>
+
+
   </main>
   <footer>
     <div class="container-sm-3">

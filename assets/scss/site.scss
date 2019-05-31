@@ -28,15 +28,12 @@ main {
         margin-bottom: $margin-sm;
     }
 
+
     >#pitstop-evolution {
         flex: 1 0 auto;
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
-
-        @include mobile() {
-            padding: 0 $margin-xs;
-        }
 
         >.inputs {
 
@@ -47,6 +44,7 @@ main {
 
             @include mobile() {
                 flex-direction: column;
+                margin: 0;
             }
 
             >div {
@@ -55,6 +53,7 @@ main {
 
                 @include mobile() {
                     flex-basis: 100%;
+                    margin: 0;
                 }
             }
 
@@ -73,17 +72,14 @@ main {
                 }
 
                 >label {
-                    flex: 1 0 auto;
+                    flex: 0 0 auto;
                 }
             }
 
         }
 
         #pitstop-barchart {
-            .pitstop-bar {
-                // stroke: black;
-                // stroke-width: 1;
-            }
+            .pitstop-bar {}
         }
     }
 
@@ -92,34 +88,4 @@ main {
     }
 
 
-
-    >.statistics {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-        flex: 1 0 auto;
-
-        >div {
-            flex: 1 0 auto;
-            text-align: center;
-        }
-
-        .diagram {
-            flex: 1 0 100%;
-        }
-
-        // debug
-        > :nth-child(2n + 1) {
-            background-color: salmon;
-        }
-
-        > :nth-child(2n) {
-            background-color: pink;
-        }
-
-        >* {
-            border: 2px black solid;
-        }
-    }
 }

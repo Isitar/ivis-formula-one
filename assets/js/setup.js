@@ -11,7 +11,7 @@ function fromCacheOrFetch(url){
 function fetchFromLSOrFetch(url) {
     result = localStorage.getItem(url);
     if (result === null) {
-        return fetch(url)
+        return fetch(url, {mode: 'cors'})
         .then(res => res.json())
         .then(resJson => { localStorage.setItem(url, JSON.stringify(resJson)); return resJson;});
     } else {
