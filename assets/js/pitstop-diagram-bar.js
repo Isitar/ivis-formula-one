@@ -182,7 +182,7 @@
                     seasonWiki.innerHTML = pages[Object.keys(pages)[0]].extract;
                     const link = document.createElement('a');
                     link.href= races[0].url;
-                    link.innerHTML='Read more on wikipedia';
+                    link.innerHTML='Read more on wikipedia <i class="fas fa-arrow-right"></i>';
                     link.setAttribute('class', 'btn-read-more');
                     seasonWiki.appendChild(link);
                 })

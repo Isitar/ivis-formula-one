@@ -102,29 +102,25 @@
                 seasonSelect.dispatchEvent(event);
                 lapInput.dispatchEvent(event);
             });
-        const circuitInfo = document.querySelector('#circuit-info');
-        while(circuitInfo.firstChild) {
-            circuitInfo.removeChild(circuitInfo.firstChild);
-        }
-        const head = document.createElement('h3');
+        const circuitInfo = document.querySelector('#circuit-wiki');
+      
+        const head = circuitInfo.querySelector('h2');
         const selectedOption = target.querySelector(`option[value='${circuitId}']`);
         head.innerHTML = selectedOption.getAttribute('data-name');
-        circuitInfo.appendChild(head);
 
-        const wikiinfo = document.createElement('div');
-        wikiinfo.id = 'circuit-wikiinfo';
-        circuitInfo.appendChild(wikiinfo);
+        const wikiinfo = circuitInfo.querySelector('#circuit-info');
 
-        const link = document.createElement('a');
-        link.href = selectedOption.getAttribute('data-wikipedia');
-        link.innerHTML = 'Read more on wikipedia';
-        link.setAttribute('class', 'btn-read-more')
-        circuitInfo.appendChild(link);
+    
        
         fromCacheOrFetch(`https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=extracts&exintro&titles=${selectedOption.getAttribute('data-wikipedia').split('/').pop()}&format=json`)
             .then(res => {
                  const pages = res.query.pages;
                  wikiinfo.innerHTML  = pages[Object.keys(pages)[0]].extract;
+                 const link = document.createElement('a');
+                 link.href = selectedOption.getAttribute('data-wikipedia');
+                 link.innerHTML = 'Read more on wikipedia <i class="fas fa-arrow-right"></i>';
+                 link.setAttribute('class', 'btn-read-more')
+                 wikiinfo.appendChild(link);
             });
 
         

@@ -171,7 +171,13 @@ input[type="number"] {
     font-size: 1rem;
     padding: 0.5rem;
     font-weight: 500;
-    background-color: darken($color-primary,5%);
+    background-color: lighten($color-primary, 30%);
+    color:black;
+    > i {
+        padding-left: $margin-xs/2;
+    }
+}
 
-    color: white;
+.wiki-text {
+    text-align: justify;
 }
