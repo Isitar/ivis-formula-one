@@ -28,7 +28,8 @@ body {
     >header,
     >main,
     >footer {
-        padding: 0 4*$margin-lg;
+        padding: 0 2*$margin-lg;
+        max-width: 10*$margin-lg;
 
         @include mobile() {
             padding: $margin-sm;

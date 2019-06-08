@@ -1,6 +1,9 @@
 (function () {
     const circuitSelect = document.querySelector('#circuit-select');
     const lapInput = document.querySelector('#laptime-lap');
+    const chkAllLaps = document.querySelector('#laptime-all');
+
+
 
     const margin = { top: 10, right: 10, left: 50, bottom: 50 };
     const width = 1000 - margin.left - margin.right;
@@ -47,8 +50,10 @@
         document.querySelector('#laptime-boxplot').classList.add('loading');
         document.querySelector('#laptime-boxplot-loader').classList.add('loading');
         const circuitId = circuitSelect.value;
+        
+
         fromCacheOrFetch(`http://ergast.com/api/f1/circuits/${circuitId}/seasons.json?limit=1000`)
-            
+
             .then(res => res.MRData.SeasonTable.Seasons)
             .then(seasons => {
                 promises = []
@@ -58,11 +63,11 @@
                     .filter(season => season >= 1996)
                     .forEach(season => {
                         const promise = fromCacheOrFetch(`http://ergast.com/api/f1/${season}/circuits/${circuitId}/races.json?limit=1`)
-                            
+
                             .then(res => res.MRData.RaceTable.Races)
                             .then(races => races[0].round)
-                            .then(round => fromCacheOrFetch(`http://ergast.com/api/f1/${season}/${round}/laps/${lapInput.value}.json?limit=1000`))
-                            
+                            .then(round => fromCacheOrFetch(`http://ergast.com/api/f1/${season}/${round}/laps${chkAllLaps.checked ? '' : '/' + lapInput.value}.json?limit=1000`))
+
                             .then(res => res.MRData.RaceTable.Races[0].Laps)
                             .then(laps => {
                                 times = [];
@@ -71,7 +76,7 @@
                                 })
                                 return times;
                             })
-                            .catch(ex => [['0:0:0','0:0:0']])
+                            .catch(ex => [['0:0:0', '0:0:0']])
                         promises[season] = promise;
                     });
 
@@ -98,17 +103,24 @@
                             d.times = lapTimesInseconds;
                             data.push(d);
                         });
-                        drawGraph(data.sort((d1,d2) => (d1.year - d2.year)));
+                        drawGraph(data.sort((d1, d2) => (d1.year - d2.year)));
                     });
             });
     }
 
-    circuitSelect.addEventListener('change',  function (event) {
+    circuitSelect.addEventListener('change', function (event) {
         updateData();
     });
 
     lapInput.addEventListener('change', e => {
         updateData();
+    });
+
+    chkAllLaps.addEventListener('change', e => {
+        if (chkAllLaps.checked) {
+            lapInput.value = '';
+            updateData();
+        }
     });
 
     function drawGraph(data) {
@@ -121,7 +133,7 @@
             max = d3.max(d.times);
             return ({ year: d.year, q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max })
         });
-        
+
 
         xScale.domain(preparedData.sort(d => -d.year).map(d => d.year));
 
@@ -165,8 +177,8 @@
                     return;
                 }
                 const pitstopSeasonselect = document.querySelector('#pitstop-season-select');
-                
-                pitstopSeasonselect.value=d.year;
+
+                pitstopSeasonselect.value = d.year;
                 var event;
                 if (document.createEvent) {
                     event = document.createEvent("HTMLEvents");
@@ -182,7 +194,7 @@
             .attr('y', d => yScale(d.q3))
             .attr('width', xScale.bandwidth)
             .attr('height', d => yScale(d.q1) - yScale(d.q3))
-   
+
 
         boxes.exit()
             .remove();

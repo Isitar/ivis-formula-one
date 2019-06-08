@@ -70,14 +70,14 @@ $margin in $margins {
 
     .loader-wrapper {
         position: absolute;
-        top: calc(50% - 2.5rem);
-        left: calc(50% - 2.5rem);
+        top: calc(50% - 7rem);
+        left: calc(50% - 5rem);
 
         display: flex;
         justify-content: center;
 
         #laptime-boxplot-loader {
-            height: 5rem;
+            height: 14rem;
             opacity: 0;
             transition: opacity 0.5s ease-out;
             display: inline-block;
@@ -93,12 +93,13 @@ $margin in $margins {
                     }
                 }
 
-                animation: fancyLoading 5s infinite linear;
+                animation: fancyLoading 6s infinite linear;
                 opacity: 1;
             }
 
             >img {
-                height: 2rem;
+                height: 5rem;
+
             }
         }
     }
