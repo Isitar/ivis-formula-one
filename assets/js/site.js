@@ -121,12 +121,11 @@
                  link.innerHTML = 'Read more on wikipedia <i class="fas fa-arrow-right"></i>';
                  link.setAttribute('class', 'btn-read-more')
                  wikiinfo.appendChild(link);
-            });
-
-        
-
+            });   
         
     };
+   
+    
 })();
 
 

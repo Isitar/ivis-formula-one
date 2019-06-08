@@ -15,106 +15,112 @@
 <body>
   <div class="bar"><img src="images/car-of-formula-1.svg" class="bar-racer"></div>
   <header>
-    <h1 class="fancyDisplay">
-      <img src="images/old_F1_Logo.svg" class="header-logo">
-      <span>F1 - Past to present</span>
-      <img src="images/current_F1_Logo.svg" class="header-logo">
-    </h1>
+    <div>
+      <h1 class="fancyDisplay">
+        <img src="images/old_F1_Logo.svg" class="header-logo">
+        <span>F1 - Past to present</span>
+        <img src="images/current_F1_Logo.svg" class="header-logo">
+      </h1>
+    </div>
   </header>
   <main>
-    <section>
-      <header>
-        <h2>Welcome</h2>
-        <p>Welcome to my visualisation about the F1.</p>
-      </header>
+    <div>
+      <section>
+        <header>
+          <h2>Welcome</h2>
+          <p>Welcome to my visualisation about the F1.</p>
+        </header>
 
-      <p>The Formula one has evolved and changed a lot in the last years.
-        The Pitstop strategy has changed from year to year.
-        In some years almost every team drive the same strategy, in others it differs widely.
-        While data about laptimes is available since 1996, data about pitstop times and frequency is only available
-        since 2012.
-      </p>
-    </section>
+        <p>The Formula one has evolved and changed a lot in the last years.
+          The Pitstop strategy has changed from year to year.
+          In some years almost every team drive the same strategy, in others it differs widely.
+          While data about laptimes is available since 1996, data about pitstop times and frequency is only available
+          since 2012.
+        </p>
+      </section>
 
-    <section id="circuit-section">
-      <div class="inputs">
-        <label for="circuit-select">
-          Select a circuit:
-          <div class="select-wrapper">
-            <select id="circuit-select"></select>
+      <section id="circuit-section">
+        <div class="inputs">
+          <label for="circuit-select">
+            Select a circuit:
+            <div class="select-wrapper">
+              <select id="circuit-select"></select>
+            </div>
+          </label>
+
+        </div>
+        <div id="circuit-wiki">
+          <h2></h2>
+          <div id="circuit-info" class="wiki-text"></div>
+        </div>
+      </section>
+
+      <section id="laptime-evolution">
+        <header>
+          <h2>See how laptimes evolved for this circuit</h2>
+          <p>You can click on a box to quickly select the season.</p>
+        </header>
+        <div class="inputs">
+          <label>
+            Lap:
+            <input type="number" id="laptime-lap" min="1" value="1">
+
+          </label>
+          <label class="checkbox-input">
+            Display average times
+            <input type="checkbox" id="laptime-all">
+          </label>
+        </div>
+        <div class="laptime-graph">
+          <svg id="laptime-boxplot" viewbox="0 0 1000 500"></svg>
+          <div class="loader-wrapper">
+            <div id="laptime-boxplot-loader" class=""><img src="images/car-of-formula-1.svg"></div>
           </div>
-        </label>
-
-      </div>
-      <div id="circuit-wiki">
-        <h2></h2>
-        <div id="circuit-info" class="wiki-text"></div>
-      </div>
-    </section>
-
-    <section id="laptime-evolution">
-      <header>
-        <h2>See how laptimes evolved for this circuit</h2>
-        <p>You can click on a box to quickly select the season.</p>
-      </header>
-      <div class="inputs">
-        <label>
-          Lap:
-          <input type="number" id="laptime-lap" min="1" value="1">
-          
-        </label>
-        <label>
-          All Laps
-          <input type="checkbox" id ="laptime-all"  >
-        </label>
-      </div>
-      <div class="laptime-graph">
-        <svg id="laptime-boxplot" viewbox="0 0 1000 500"></svg>
-        <div class="loader-wrapper">
-          <div id="laptime-boxplot-loader" class=""><img src="images/car-of-formula-1.svg"></div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="pitstop-evolution">
-      <header>
-        <h2>Pitstop evolution</h2>
-        <p>Pitstop tightly correlate with laptimes. But also pitstops have changed over the years. While in some years
-          teams drive very similar strategies, in others it differs widely.</p>
-      </header>
-      <div class="inputs">
-        <div class="select-wrapper">
-          <select id="pitstop-season-select"></select>
+      <section id="pitstop-evolution">
+        <header>
+          <h2>Pitstop evolution</h2>
+          <p>Pitstop tightly correlate with laptimes. But also pitstops have changed over the years. While in some
+            years
+            teams drive very similar strategies, in others it differs widely.</p>
+        </header>
+        <div class="inputs">
+          <div class="select-wrapper">
+            <select id="pitstop-season-select"></select>
+          </div>
         </div>
-      </div>
-      <div class="inputs">
-        <div id="pitstop-coloring-radios">
-          <span>Coloring:</span>
-          <label class="container">
-            density
-            <input type="radio" checked="checked" name="pitstop-coloring" value="density">
-            <span class="checkmark"></span>
-          </label>
-          <label class="container">
-            strategy
-            <input type="radio" name="pitstop-coloring" value="strategy">
-            <span class="checkmark"></span>
-          </label>
+        <div class="inputs">
+          <div id="pitstop-coloring-radios">
+            <span>Coloring:</span>
+            <label class="container">
+              density
+              <input type="radio" checked="checked" name="pitstop-coloring" value="density">
+              <span class="checkmark"></span>
+            </label>
+            <label class="container">
+              strategy
+              <input type="radio" name="pitstop-coloring" value="strategy">
+              <span class="checkmark"></span>
+            </label>
+          </div>
         </div>
-      </div>
-      <svg id="pitstop-barchart" viewBox="0 0 1000 500"></svg>
-      <div id="season-wikipedia" class="wiki-text">
+        <svg id="pitstop-barchart" viewBox="0 0 1000 500"></svg>
+        <div id="season-wikipedia" class="wiki-text">
 
-      </div>
-    </section>
+        </div>
+      </section>
 
-
+    </div>
   </main>
   <footer>
-    <div class="container-sm-3">
-      <div class="text-horz-center">ivis Pro - FHNW FS19</div>
-      <div class="text-horz-center"><a href="https://github.com/isitar">Pascal Lüscher</a></div>
-      <div class="text-horz-center"><a href="credits.html">Credits</a></div>
+    <div>
+      <div class="container-sm-3">
+        <div class="text-horz-center">ivis Pro - FHNW FS19</div>
+        <div class="text-horz-center"><a href="https://github.com/isitar">Pascal Lüscher</a></div>
+        <div class="text-horz-center"><a href="credits.html">Credits</a></div>
+      </div>
     </div>
   </footer>
   <div class="bar"></div>

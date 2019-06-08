@@ -50,10 +50,9 @@
         document.querySelector('#laptime-boxplot').classList.add('loading');
         document.querySelector('#laptime-boxplot-loader').classList.add('loading');
         const circuitId = circuitSelect.value;
-        
+
 
         fromCacheOrFetch(`http://ergast.com/api/f1/circuits/${circuitId}/seasons.json?limit=1000`)
-
             .then(res => res.MRData.SeasonTable.Seasons)
             .then(seasons => {
                 promises = []
@@ -63,11 +62,9 @@
                     .filter(season => season >= 1996)
                     .forEach(season => {
                         const promise = fromCacheOrFetch(`http://ergast.com/api/f1/${season}/circuits/${circuitId}/races.json?limit=1`)
-
                             .then(res => res.MRData.RaceTable.Races)
                             .then(races => races[0].round)
-                            .then(round => fromCacheOrFetch(`http://ergast.com/api/f1/${season}/${round}/laps${chkAllLaps.checked ? '' : '/' + lapInput.value}.json?limit=1000`))
-
+                            .then(round => fromCacheOrFetch(`http://ergast.com/api/f1/${season}/${round}/laps/${lapInput.value}.json?limit=1000`))
                             .then(res => res.MRData.RaceTable.Races[0].Laps)
                             .then(laps => {
                                 times = [];
@@ -117,10 +114,7 @@
     });
 
     chkAllLaps.addEventListener('change', e => {
-        if (chkAllLaps.checked) {
-            lapInput.value = '';
-            updateData();
-        }
+        updateData();
     });
 
     function drawGraph(data) {
@@ -133,7 +127,6 @@
             max = d3.max(d.times);
             return ({ year: d.year, q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max })
         });
-
 
         xScale.domain(preparedData.sort(d => -d.year).map(d => d.year));
 
@@ -192,7 +185,7 @@
             .duration(1000)
             .attr('x', d => xScale(d.year))
             .attr('y', d => yScale(d.q3))
-            .attr('width', xScale.bandwidth)
+            .attr('width', xScale.bandwidth())
             .attr('height', d => yScale(d.q1) - yScale(d.q3))
 
 
@@ -216,6 +209,51 @@
             .style('width', 40)
         horzLines.exit()
             .remove();
+
+
+
+        function applyAvg() {
+            const avgBulletsSelected = g.
+                selectAll('.avg-bullet');
+
+            if (chkAllLaps.checked) {
+                const avgData = myCache['parsedArr'][circuitSelect.value];
+                console.log(avgData);
+                const avgBullets = avgBulletsSelected
+                    .data(avgData);
+                avgBullets.
+                    enter()
+                    .append('circle')
+                    .classed('avg-bullet', true)
+                    .merge(avgBullets)
+                    .attr('cx', d => xScale(d.year) + xScale.bandwidth() / 2)
+                    .attr('r', xScale.bandwidth() / 10)
+                    .transition()
+                    .duration(1000)
+                    .attr('cy', d => yScale(d.average / 1000))
+                avgBullets.exit().remove();
+            } else {
+                avgBulletsSelected.remove();
+            }
+        }
+        if (myCache['parsedArr'] === undefined) {
+            d3.csv('../data/average_laptimes.csv')
+                .then(res => {
+                    let parsedArr = [];
+                    res.forEach(obj => {
+                        const key = obj.circuitRef;
+                        if (!(key in parsedArr)) {
+                            parsedArr[key] = [];
+                        }
+                        parsedArr[key].push(obj);
+                    });
+                    return parsedArr;
+                })
+                .then(x => myCache['parsedArr'] = x)
+                .then(applyAvg);
+        } else {
+            applyAvg();
+        }
 
         document.querySelector('#laptime-boxplot').classList.remove('loading');
         document.querySelector('#laptime-boxplot-loader').classList.remove('loading');

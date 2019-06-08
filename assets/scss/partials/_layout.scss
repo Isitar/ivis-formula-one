@@ -23,18 +23,32 @@ body {
         flex: 0 0 auto;
         height: 0.25em;
         background-color: red;
+        >.bar-racer {
+            position: absolute;
+            right: 0;
+            top: -30px;
+            transition: right 1s linear;
+
+            &.racing {
+                right: 100vw;
+            }
+        }
     }
 
     >header,
     >main,
     >footer {
-        padding: 0 2*$margin-lg;
-        max-width: 10*$margin-lg;
-
-        @include mobile() {
-            padding: $margin-sm;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        > div {
+            padding: 0 2*$margin-lg;
+            max-width: 1200px;
+            width: 100%;
+            @include mobile() {
+                padding: $margin-sm;
+            }
         }
-
         margin-bottom: $margin-sm;
 
         a {
@@ -55,18 +69,7 @@ body {
         flex: 0 1 auto;
     }
 
-    >.bar {
-        >.bar-racer {
-            position: absolute;
-            right: 0;
-            top: -30px;
-            transition: right 1s linear;
 
-            &.racing {
-                right: 100vw;
-            }
-        }
-    }
 }
 
 header {

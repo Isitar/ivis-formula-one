@@ -26,12 +26,12 @@ $margin in $margins {
 
 #laptime-evolution {
     >.inputs {
-        label {
+        label:not(.checkbox-input) {
             display: flex;
             flex-direction: column;
             flex-wrap: wrap;
 
-            >input {
+            >input:not([type='checkbox']) {
                 flex: 1 0 auto;
                 width: calc(100% - 1rem);
                 padding-left: 1rem;
@@ -52,12 +52,15 @@ $margin in $margins {
 
         .horz-line {
             stroke: black;
-            width: 40;
         }
 
         .vert-line {
             stroke: black;
-            width: 40;
+        }
+
+        .avg-bullet {
+            fill: white;
+            stroke: black;
         }
 
         transition: opacity 0.5s ease-out;
@@ -102,6 +105,60 @@ $margin in $margins {
 
             }
         }
+    }
+}
+
+#pitstop-evolution {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    >.inputs {
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: -$margin-sm/2;
+
+        @include mobile() {
+            flex-direction: column;
+            margin: 0;
+        }
+
+        >div {
+            flex: 1 0 auto;
+            margin: $margin-sm/2;
+
+            @include mobile() {
+                flex-basis: 100%;
+                margin: 0;
+            }
+        }
+
+        #pitstop-coloring-radios {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            //margin: -$margin-xs/2;
+
+            @include mobile() {
+                justify-content: center;
+            }
+
+            >* {
+                margin: $margin-xs/2;
+            }
+
+            >label {
+                flex: 0 0 auto;
+            }
+        }
+
+    }
+
+    #pitstop-barchart {
+        .pitstop-bar {}
     }
 }
 
