@@ -17,7 +17,7 @@ Change to yes when you are ready.
 |Version|Status|
 |--|--|
 |First prototype ready | yes |
-|Final version ready  | no |
+|Final version ready  | yes |
 
 
 
