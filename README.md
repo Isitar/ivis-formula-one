@@ -3,7 +3,7 @@
 Student: Pascal Lüscher
 
 **Short description:**
-This project visualizes the history of the F1. Technological improvements and talented drivers should be visible in the data.
+This project visualizes the history of the F1. Technological improvements or talented drivers should be visible in the data.
 
 ## Technical information
 **Main file path**: index.html

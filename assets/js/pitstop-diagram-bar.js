@@ -45,9 +45,8 @@
         .text("time [s]")
 
     function drawChart(data) {
-
-        const maxX = d3.max(data, d => d.x);
-
+        const maxX = data[0].maxLap;
+        
         var colorStrategy = document.querySelector('input[name="pitstop-coloring"]:checked').value == 'density' ? 1 : 0;
 
         const groupedByX = data.reduce((carry, d) => {
@@ -154,23 +153,30 @@
         const season = seasonSelect.value;
         const racesPromise = fromCacheOrFetch(`http://ergast.com/api/f1/${season}/circuits/${circuitId}/races.json?limit=1`)
             .then(res => res.MRData.RaceTable.Races)
-        racesPromise
+
+        const pitstopPromise = racesPromise
             .then(races => races[0].round)
             .then(round => {
-                fromCacheOrFetch(`http://ergast.com/api/f1/${season}/${round}/pitstops.json?limit=1000`)
+                Promise.all([
+                    fetchFromLSOrFetch(`http://ergast.com/api/f1/${season}/${round}/results.json?limit=1`),
+                    fromCacheOrFetch(`http://ergast.com/api/f1/${season}/${round}/pitstops.json?limit=1000`)
+                ])
+                    .then(res => {
+                        return {
+                            maxLap: res[0].MRData.RaceTable.Races[0].Results[0].laps,
+                            pitstops: res[1].MRData.RaceTable.Races[0].PitStops
+                        }
+                    })
+                    .then(obj => {
 
-                    .then(res => res.MRData.RaceTable.Races[0].PitStops)
-                    .then(pitstops => {
-
-                        data = pitstops.map(ps => {
-                            return { x: +ps.lap, y: +ps.duration, driver: ps.driverId }
+                        data = obj.pitstops.map(ps => {
+                            return { x: +ps.lap, y: +ps.duration, driver: ps.driverId, maxLap: +obj.maxLap };
                         });
                         drawChart(data);
                     })
                     .catch(ex => console.log(ex))
             })
             .catch(ex => console.log(ex));
-
         racesPromise.then(races => {
             fromCacheOrFetch(`https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=extracts&exintro&titles=${races[0].url.split('/').pop()}&format=json`)
                 .then(res => {
@@ -181,8 +187,8 @@
                     const pages = res.query.pages;
                     seasonWiki.innerHTML = pages[Object.keys(pages)[0]].extract;
                     const link = document.createElement('a');
-                    link.href= races[0].url;
-                    link.innerHTML='Read more on wikipedia <i class="fas fa-arrow-right"></i>';
+                    link.href = races[0].url;
+                    link.innerHTML = 'Read more on wikipedia <i class="fas fa-arrow-right"></i>';
                     link.setAttribute('class', 'btn-read-more');
                     seasonWiki.appendChild(link);
                 })
