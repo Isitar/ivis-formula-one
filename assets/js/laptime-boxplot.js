@@ -2,6 +2,7 @@
     const circuitSelect = document.querySelector('#circuit-select');
     const lapInput = document.querySelector('#laptime-lap');
     const chkAllLaps = document.querySelector('#laptime-all');
+    const chkMinLaps = document.querySelector('#laptime-min-time');
 
 
 
@@ -117,6 +118,10 @@
         updateData();
     });
 
+    chkMinLaps.addEventListener('change', e => {
+        updateData();
+    })
+
     function drawGraph(data) {
         const preparedData = data.map(d => {
             q1 = d3.quantile(d.times.sort(d3.ascending), .25);
@@ -218,7 +223,7 @@
 
             if (chkAllLaps.checked) {
                 const avgData = myCache['parsedArr'][circuitSelect.value];
-                console.log(avgData);
+                
                 const avgBullets = avgBulletsSelected
                     .data(avgData);
                 avgBullets.
@@ -236,6 +241,35 @@
                 avgBulletsSelected.remove();
             }
         }
+
+        function applyMin() {
+            const minBulletsSelected = g.
+                selectAll('.min-bullet');
+
+            if (chkMinLaps.checked) {
+                const minData = myCache['parsedArr'][circuitSelect.value];
+                
+                const avgBullets = minBulletsSelected
+                    .data(minData);
+                avgBullets.
+                    enter()
+                    .append('circle')
+                    .classed('min-bullet', true)
+                    .attr('cy', height)
+                    .merge(avgBullets)
+                    .attr('cx', d => xScale(d.year) + xScale.bandwidth() / 2)
+                    .attr('r', xScale.bandwidth() / 10)
+                    .transition()
+                    .duration(1000)
+                    .attr('cy', d => yScale(+d.fastestRound / 1000))
+                avgBullets.exit().remove();
+            } else {
+                minBulletsSelected.remove();
+            }
+        }
+
+
+
         if (myCache['parsedArr'] === undefined) {
             d3.csv('../data/average_laptimes.csv')
                 .then(res => {
@@ -250,9 +284,13 @@
                     return parsedArr;
                 })
                 .then(x => myCache['parsedArr'] = x)
-                .then(applyAvg);
+                .then( () => {
+                    applyAvg();
+                    applyMin();
+                });
         } else {
             applyAvg();
+            applyMin();
         }
 
         document.querySelector('#laptime-boxplot').classList.remove('loading');

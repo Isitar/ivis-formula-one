@@ -59,7 +59,12 @@ $margin in $margins {
         }
 
         .avg-bullet {
-            fill: white;
+            fill: $color-bg-primary;
+            stroke: black;
+        }
+
+        .min-bullet {
+            fill: $color-bg-primary;
             stroke: black;
         }
 
@@ -230,8 +235,9 @@ input[type="number"] {
     padding: 0.5rem;
     font-weight: 500;
     background-color: lighten($color-primary, 30%);
-    color:black;
-    > i {
+    color: black;
+
+    >i {
         padding-left: $margin-xs/2;
     }
 }
