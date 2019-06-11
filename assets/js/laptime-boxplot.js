@@ -271,7 +271,7 @@
 
 
         if (myCache['parsedArr'] === undefined) {
-            d3.csv('../data/average_laptimes.csv')
+            d3.csv('./data/average_laptimes.csv')
                 .then(res => {
                     let parsedArr = [];
                     res.forEach(obj => {
